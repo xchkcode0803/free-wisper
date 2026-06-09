@@ -6,10 +6,13 @@
 ![Platform](https://img.shields.io/badge/platform-iOS%2017%2B-black.svg)
 ![Swift](https://img.shields.io/badge/Swift-5-black.svg)
 
-Free Wisper is a system-wide dictation keyboard. Hold the mic, speak, and your words are
-transcribed by Groq's Whisper models and dropped straight into whatever app you're typing in —
-optionally cleaned up by an LLM first. There are **no accounts, no servers, and no tracking**:
-your audio goes directly from your device to Groq using *your* key, and nowhere else.
+You talk about 3× faster than you type — roughly 150 words a minute versus 40. Apps like
+Wispr Flow made that speed hard to give up, but they charge a monthly subscription and send your
+voice through their servers. **Free Wisper gives you the same hold-to-talk dictation everywhere in
+iOS — for free, on your own Groq key.** Hold the mic, speak, and Groq's Whisper models transcribe
+you (and an LLM optionally polishes the result), dropping clean text straight into whatever app
+you're in. No subscription, no account, no middleman — your audio goes from your device to Groq
+and nowhere else.
 
 <p align="center">
   <img src="screenshots/app.png" width="32%" alt="The Free Wisper app — settings & setup" />
