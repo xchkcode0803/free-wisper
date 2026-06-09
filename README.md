@@ -74,8 +74,13 @@ xcodegen generate          # generates FreeWisper.xcodeproj from project.yml
 open FreeWisper.xcodeproj
 ```
 
-Then build & run the `FreeWisper` scheme. In the app: paste your Groq key, add the keyboard in
-**Settings → General → Keyboards → Keyboards → Add New Keyboard…**, and enable **Allow Full Access**.
+Build & run the `FreeWisper` scheme, then set it up:
+
+1. In the app, paste your **Groq API key**.
+2. Add the keyboard: open **Settings → General → Keyboard → Keyboards → Add New Keyboard…** and choose **Free Wisper**.
+3. Back in that list, tap **Free Wisper** and turn on **Allow Full Access** — this is required so the keyboard can reach Groq over the network.
+
+Now switch to the Free Wisper keyboard (tap the 🌐 globe in any text field) and hold the mic to dictate.
 
 > [!IMPORTANT]
 > **Running on a real device (or forking)?** The bundle IDs, App Group, and Keychain group in this
