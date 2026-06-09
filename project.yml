@@ -1,0 +1,112 @@
+name: FreeWisper
+options:
+  bundleIdPrefix: com.freewisper
+  deploymentTarget:
+    iOS: "17.0"
+  createIntermediateGroups: true
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    CODE_SIGN_STYLE: "Automatic"
+    ENABLE_USER_SCRIPT_SANDBOXING: "NO"
+    SWIFT_TREAT_WARNINGS_AS_ERRORS: "NO"
+
+targets:
+  FreeWisper:
+    type: application
+    platform: iOS
+    deploymentTarget: "17.0"
+    sources:
+      - path: FreeWisper
+      - path: Shared
+    resources:
+      - path: FreeWisper/Resources/Assets.xcassets
+      - path: FreeWisper/Resources/PrivacyInfo.xcprivacy
+    info:
+      path: FreeWisper/Resources/Info.plist
+      properties:
+        CFBundleShortVersionString: "1.0.0"
+        CFBundleVersion: "1"
+        ITSAppUsesNonExemptEncryption: false
+        NSMicrophoneUsageDescription: Free Wisper records audio from the keyboard to transcribe with Groq.
+        UILaunchScreen:
+          UIColorName: ""
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.freewisper.app
+        INFOPLIST_KEY_UILaunchScreen_Generation: "YES"
+        CODE_SIGN_ENTITLEMENTS: FreeWisper/FreeWisper.entitlements
+        TARGETED_DEVICE_FAMILY: "1"
+        SUPPORTED_PLATFORMS: "iphonesimulator iphoneos"
+    dependencies:
+      - target: FreeWisperKeyboard
+
+  FreeWisperKeyboard:
+    type: app-extension
+    platform: iOS
+    deploymentTarget: "17.0"
+    sources:
+      - path: FreeWisperKeyboard
+      - path: Shared
+    resources:
+      - path: FreeWisperKeyboard/PrivacyInfo.xcprivacy
+    info:
+      path: FreeWisperKeyboard/Info.plist
+      properties:
+        CFBundleShortVersionString: "1.0.0"
+        CFBundleVersion: "1"
+        CFBundleDisplayName: Free Wisper
+        ITSAppUsesNonExemptEncryption: false
+        NSMicrophoneUsageDescription: Free Wisper records audio from the keyboard to transcribe with Groq.
+        NSExtension:
+          NSExtensionAttributes:
+            IsASCIICapable: false
+            PrefersRightToLeft: false
+            PrimaryLanguage: en-US
+            RequestsOpenAccess: true
+            RequestsBluetoothAccess: false
+          NSExtensionPointIdentifier: com.apple.keyboard-service
+          NSExtensionPrincipalClass: $(PRODUCT_MODULE_NAME).KeyboardViewController
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.freewisper.app.keyboard
+        CODE_SIGN_ENTITLEMENTS: FreeWisperKeyboard/FreeWisperKeyboard.entitlements
+        TARGETED_DEVICE_FAMILY: "1"
+        SUPPORTED_PLATFORMS: "iphonesimulator iphoneos"
+
+  FreeWisperUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    deploymentTarget: "17.0"
+    sources:
+      - path: FreeWisperUITests
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.freewisper.app.uitests
+        TARGETED_DEVICE_FAMILY: "1"
+        SUPPORTED_PLATFORMS: "iphonesimulator iphoneos"
+        TEST_TARGET_NAME: FreeWisper
+    dependencies:
+      - target: FreeWisper
+
+schemes:
+  FreeWisper:
+    build:
+      targets:
+        FreeWisper: all
+        FreeWisperKeyboard: all
+        FreeWisperUITests: [test]
+    test:
+      targets:
+        - FreeWisperUITests
+      gatherCoverageData: false
+    run:
+      config: Debug
+    profile:
+      config: Release
+    analyze:
+      config: Debug
+    archive:
+      config: Release

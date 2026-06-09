@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Free Wisper — iOS Prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;500;600;700;800&family=Noto+Serif+TC:wght@300;400;500;600;700;900&family=Inter+Tight:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink:     #0A0A0A;
+      --ink-2:   #2A2A2A;
+      --ink-3:   #5C5C5C;
+      --ink-4:   #8A8A8A;
+      --ink-5:   #B8B8B8;
+      --hair:    rgba(10,10,10,0.14);
+      --hair-2:  rgba(10,10,10,0.06);
+      --paper:   #F2EFE7;
+      --paper-2: #EDE9DF;
+      --bone:    #FBF9F3;
+      --card:    #FFFFFF;
+      --serif:   'Shippori Mincho B1', 'Noto Serif TC', 'Times New Roman', serif;
+      --sans:    'Inter Tight', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      --mono:    'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+    }
+    /* When viewing in Chinese, prefer Noto Serif TC for authentic glyph shapes */
+    html[data-lang="zh"] {
+      --serif: 'Noto Serif TC', 'Shippori Mincho B1', 'Times New Roman', serif;
+    }
+    html, body { margin: 0; padding: 0; background: var(--paper); min-height: 100vh; }
+    body {
+      font-family: var(--sans);
+      font-feature-settings: "ss01", "cv11";
+      -webkit-font-smoothing: antialiased;
+      color: var(--ink);
+    }
+    #root { min-height: 100vh; }
+
+    /* Paper-grain background outside the phone */
+    .stage-bg {
+      background:
+        radial-gradient(circle at 1px 1px, rgba(10,10,10,0.045) 0.6px, transparent 0) 0 0 / 5px 5px,
+        radial-gradient(circle at 3px 4px, rgba(10,10,10,0.025) 0.5px, transparent 0) 0 0 / 11px 9px,
+        linear-gradient(180deg, var(--paper) 0%, var(--paper-2) 100%);
+    }
+
+    /* Hide scrollbars inside phone */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { scrollbar-width: none; }
+
+    /* Pulse ring animation for recording */
+    @keyframes pulseRing {
+      0%   { transform: scale(0.88); opacity: 0.55; }
+      80%  { opacity: 0; }
+      100% { transform: scale(1.85); opacity: 0; }
+    }
+    .pulse-ring {
+      position: absolute;
+      inset: 0;
+      border-radius: 9999px;
+      animation: pulseRing 1.8s cubic-bezier(0.22, 0.61, 0.36, 1) infinite;
+      border: 1.5px solid var(--ink);
+    }
+    .pulse-ring.r2 { animation-delay: 0.45s; }
+    .pulse-ring.r3 { animation-delay: 0.9s; }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spin { animation: spin 0.9s linear infinite; transform-origin: center; }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-4px); }
+      40%, 80% { transform: translateX(4px); }
+    }
+    .shake { animation: shake 0.42s cubic-bezier(.36,.07,.19,.97) both; }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(2px); } to { opacity: 1; transform: translateY(0); } }
+    .fade-in { animation: fadeIn 0.22s ease-out both; }
+
+    /* Caret blink */
+    @keyframes caretBlink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+    .caret { display: inline-block; width: 1.5px; height: 1em; background: var(--ink); vertical-align: -2px; margin-left: 1px; animation: caretBlink 1.05s steps(1, end) infinite; }
+
+    /* Cursor for interactive elements inside phone */
+    .tap { cursor: pointer; user-select: none; -webkit-user-select: none; }
+    .tap:active { opacity: 0.55; }
+
+    button.reset {
+      background: none; border: 0; padding: 0; margin: 0; font: inherit; color: inherit; cursor: pointer;
+    }
+
+    /* Segment switch outside phone */
+    .seg {
+      display: inline-flex;
+      border: 1px solid var(--ink);
+      gap: 0; font-size: 11px; font-weight: 500;
+      font-family: var(--sans);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      background: var(--bone);
+    }
+    .seg button {
+      padding: 10px 22px;
+      color: var(--ink);
+      background: transparent; transition: background 0.15s, color 0.15s;
+      border-right: 1px solid var(--ink);
+    }
+    .seg button:last-child { border-right: 0; }
+    .seg button.active { background: var(--ink); color: var(--bone); }
+
+    /* Vertical stamp/seal */
+    .seal {
+      display: inline-flex; align-items: center; justify-content: center;
+      border: 1.2px solid var(--ink);
+      font-family: var(--serif);
+      color: var(--ink);
+      background: transparent;
+    }
+
+    /* Hatch pattern for "cleaning" inner disc */
+    .hatch {
+      background-image:
+        repeating-linear-gradient(45deg,
+          rgba(255,255,255,0.95) 0 2px,
+          transparent 2px 5px),
+        var(--ink);
+    }
+
+    /* Subtle pencil-line divider */
+    hr.rule {
+      border: 0; height: 1px; background: var(--ink); margin: 0;
+    }
+    hr.hairline { border: 0; height: 0.5px; background: var(--hair); margin: 0; }
+  </style>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- iOS frame components (provides IOSDevice, IOSStatusBar, etc on window) -->
+  <script type="text/babel" src="ios-frame.jsx"></script>
+  <!-- Tweaks panel scaffold -->
+  <script type="text/babel" src="tweaks-panel.jsx"></script>
+
+  <!-- App components -->
+  <script type="text/babel" src="strings.jsx"></script>
+  <script type="text/babel" src="icons.jsx"></script>
+  <script type="text/babel" src="settings.jsx"></script>
+  <script type="text/babel" src="voice-keyboard.jsx"></script>
+  <script type="text/babel" src="demo-screen.jsx"></script>
+  <script type="text/babel" src="app.jsx"></script>
+</body>
+</html>
