@@ -20,16 +20,14 @@ your audio goes directly from your device to Groq using *your* key, and nowhere 
 
 ## Features
 
-- 🎙️ **Hold-to-talk voice keyboard** — a custom keyboard extension; press and hold the mic, speak,
-  release to transcribe. Works in any app.
-- ⚡ **Groq Whisper transcription** — choose between **Whisper Large v3** (high accuracy) and
-  **Whisper Large v3 Turbo** (216× real-time).
-- ✨ **Optional AI cleanup** — pass the raw transcript through an LLM (**GPT-OSS 120B / 20B** on Groq)
-  with three editing intensities: **Light** (fix punctuation & fillers), **Standard** (smooth grammar),
-  and **Email** (full rewrite into polished prose).
-- 🌐 **Bilingual** — full **English / 简体中文** interface, toggled in-app.
-- 📰 **Editorial design** — an ink-on-paper, museum-catalog aesthetic with serif type and hairline borders.
-- 🔒 **Private by design** — no accounts, no servers, no analytics.
+| | Feature | What it does |
+|:--:|---|---|
+| 🎙️ | **Hold-to-talk keyboard** | A custom keyboard extension — press and hold the mic, speak, release to transcribe. Works in any app. |
+| ⚡ | **Groq Whisper transcription** | Choose **Whisper Large v3** (high accuracy) or **Whisper Large v3 Turbo** (216× real-time). |
+| ✨ | **Optional AI cleanup** | Refine the transcript with an LLM (**GPT-OSS 120B / 20B** on Groq) at three intensities — **Light** (punctuation & fillers), **Standard** (smooth grammar), **Email** (full rewrite). |
+| 🌐 | **Bilingual** | Full **English / 简体中文** interface, toggled in-app. |
+| 📰 | **Editorial design** | An ink-on-paper, museum-catalog aesthetic with serif type and hairline borders. |
+| 🔒 | **Private by design** | No accounts, no servers, no analytics. |
 
 ## Privacy
 
