@@ -129,7 +129,7 @@ free-wisper/
 ## Acknowledgments
 
 - [Groq](https://groq.com) for fast Whisper transcription and open-model inference.
-- Cleanup-prompt design informed by [OpenWhispr](https://github.com/OpenWhispr/openwhispr).
+- Cleanup-prompt design inspired by [OpenWhispr](https://github.com/OpenWhispr/openwhispr).
 
 ## License
 
